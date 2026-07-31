@@ -26,7 +26,7 @@ Data-quality checks are applied across five dimensions:
 
 ## Dashboard Preview
 
-![Late Payment Monitoring Dashboard](screenshots/dashboard-overview.png)
+![Late Payment Monitoring Dashboard](screenshots/dashboard-overview.PNG)
 
 ## Project Structure
 
