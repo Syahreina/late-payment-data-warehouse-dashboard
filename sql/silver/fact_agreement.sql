@@ -1,0 +1,60 @@
+INSERT INTO silver.fact_agreement (
+    ingested_at,
+    updated_at,
+    agreement_id,
+    ref_curr_id,
+    ref_office_id,
+    customer_id,
+    spouse_id,
+    tenor,
+    no_of_installment,
+    next_installment_due_no,
+    next_installment_no,
+    next_installment_due_date,
+    next_installment_date,
+    agreement_date,
+    effective_date,
+    total_down_payment_nett_amt,
+    installment_amt,
+    product_type
+)
+SELECT
+    NOW() AS ingested_at,
+    NOW() AS updated_at,
+    agrmnt_id AS agreement_id,
+
+    UPPER(TRIM(ref_curr_id)) AS ref_curr_id,
+    ref_office_id,
+    cust_id AS customer_id,
+    spouse_id,
+    tenor,
+    num_of_inst AS no_of_installment,
+    next_inst_due_num AS next_installment_due_no,
+    next_inst_num AS next_installment_no,
+    next_inst_due_dt AS next_installment_due_date,
+    next_inst_dt AS next_installment_date,
+    agrmnt_dt AS agreement_date,
+    effective_dt AS effective_date,
+    total_down_payment_nett_amt,
+    inst_amt AS installment_amt,
+
+    UPPER(TRIM(prod_type)) AS product_type
+FROM bronze.agrmnt
+ON CONFLICT (agreement_id)
+DO UPDATE SET
+    ref_curr_id = EXCLUDED.ref_curr_id,
+    ref_office_id = EXCLUDED.ref_office_id,
+    customer_id = EXCLUDED.customer_id,
+    spouse_id = EXCLUDED.spouse_id,
+    tenor = EXCLUDED.tenor,
+    no_of_installment = EXCLUDED.no_of_installment,
+    next_installment_due_no = EXCLUDED.next_installment_due_no,
+    next_installment_no = EXCLUDED.next_installment_no,
+    next_installment_due_date = EXCLUDED.next_installment_due_date,
+    next_installment_date = EXCLUDED.next_installment_date,
+    agreement_date = EXCLUDED.agreement_date,
+    effective_date = EXCLUDED.effective_date,
+    total_down_payment_nett_amt = EXCLUDED.total_down_payment_nett_amt,
+    installment_amt = EXCLUDED.installment_amt,
+    product_type = EXCLUDED.product_type,
+    updated_at = NOW();
